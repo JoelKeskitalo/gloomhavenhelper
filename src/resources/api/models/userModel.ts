@@ -5,6 +5,6 @@ export interface User {
     password: string;
     character: Character; // a specific character, tied to the account
     progress: Progress; // saves the progress in a seperate model
-    settings: UserSettings; 
+    settings: UserSettings; // user specific preferences
     createdAt: Date;
 }

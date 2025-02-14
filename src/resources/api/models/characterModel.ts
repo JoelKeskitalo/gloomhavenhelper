@@ -1,7 +1,7 @@
 export interface Character {
     id: string;
     name: string;
-    class: string;
+    characterClass: string;
     level: number;
     experience: number;
     gold: number;

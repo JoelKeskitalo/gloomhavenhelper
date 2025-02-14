@@ -1,5 +1,7 @@
 export interface Deck {
     id: string;
-    owner: string; // user id
-    cards: string[]; // a list of card id's
+    name: string;
+    userId: string; // connected to user
+    cards: string[]; // ability cards & modifier cards
+    itemIds: string[]; // lis
 }

@@ -1,5 +1,5 @@
 export interface UserSettings {
     enableDarkMode: boolean;
-    preferredLanguage: string; 
+    preferredLanguage: string;
     showAdvancedStats: boolean; // placeholder
 }
