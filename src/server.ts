@@ -1,16 +1,16 @@
-const express = require('express');
-const cors = require('cors');
-const { PORT } = require('./config/config');
-const dbConnect = require('./config/db');
+import express from 'express';
+import cors from 'cors';
+import config from './config/config';
+import connectDB from './config/db';
 
-dbConnect();
+const { PORT } = config;
+
+connectDB();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/', (req: any, res: any) => {
-    res.send('Api is running...');
-});
+app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

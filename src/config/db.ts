@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const { MONGO_URI } = require('../config/config');
+import mongoose from 'mongoose';
+import config from './config';
+
+const { MONGO_URI } = config;
 
 const connectDB = async (): Promise<void> => {
     try {
@@ -15,4 +17,4 @@ const connectDB = async (): Promise<void> => {
     }
 };
 
-module.exports = connectDB;
+export default connectDB;
