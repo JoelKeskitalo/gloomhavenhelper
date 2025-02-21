@@ -4,9 +4,9 @@ import User from '../models/userModel';
 
 export const addUser = async (req: Request, res: Response) => {
     try {
-        const { username, email, password } = req.body;
+        const { email, password } = req.body;
 
-        if (!username || !email || !password) {
+        if (!email || !password) {
             res.status(400).json({
                 message: 'All fields are required',
             });
@@ -21,7 +21,6 @@ export const addUser = async (req: Request, res: Response) => {
 
         const encryptedPassword = await bcrypt.hash(password, 10);
         const user = new User({
-            username,
             email,
             password: encryptedPassword,
         });

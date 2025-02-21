@@ -5,7 +5,7 @@ export interface PlayedScenario {
     playedAt: Date;
     receivedItems: string[];
     receivedExperience: number;
-    recievedGold: number;
+    receivedGold: number;
     success: boolean;
     perks?: string[];
 }

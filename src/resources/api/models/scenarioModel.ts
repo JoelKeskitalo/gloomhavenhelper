@@ -5,5 +5,4 @@ export interface Scenario {
     location: string;
     rewards?: string;
     requirements?: string;
-    completed: boolean;
 }

@@ -4,7 +4,8 @@ export interface User {
     email: string;
     password: string;
     character: Character; // a specific character, tied to the account
-    progress: Progress; // saves the progress in a seperate model
+    playedScenarios: PlayedScenario[];
     settings: UserSettings; // user specific preferences
     createdAt: Date;
+    imagePath?: string;
 }

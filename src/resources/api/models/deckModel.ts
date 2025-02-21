@@ -3,5 +3,6 @@ export interface Deck {
     name: string;
     userId: string; // connected to user
     cards: string[]; // ability cards & modifier cards
-    itemIds: string[]; // lis
+    itemIds: string[];
+    imagePath?: string;
 }
