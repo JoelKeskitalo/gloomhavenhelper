@@ -6,8 +6,6 @@ import userRoutes from './routes/userRoutes';
 
 const { PORT } = config;
 
-connectDB();
-
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -18,4 +16,11 @@ app.get('/', (req: any, res: any) => {
     res.send('Api is running...');
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+connectDB()
+    .then(() => {
+        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    })
+    .catch((error) => {
+        console.error('MongoDB connection failed: ', error);
+        process.exit(1);
+    });

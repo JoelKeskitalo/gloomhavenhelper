@@ -1,14 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
-    username: string;
     email: string;
     password: string;
     character: mongoose.Schema.Types.ObjectId; // reference to character
-    progress: {
-        completedScenarios: number;
-        unlockedScenarios: number[];
-    };
+    // playedScenarios: PlayedScenario[];
     settings: {
         enableDarkMode: boolean;
         preferredLanguage: string;
@@ -19,14 +15,10 @@ export interface IUser extends Document {
 
 const userSchema = new Schema<IUser>(
     {
-        username: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         character: { type: mongoose.Schema.Types.ObjectId, ref: 'Character' },
-        progress: {
-            completedScenarios: { type: Number, default: 0 },
-            unlockedScenarios: { type: [Number], default: [] },
-        },
+        // playedScenarios: { type: [Schema.Types.ObjectId], ref: 'PlayedScenario' },
         settings: {
             enableDarkMode: { type: Boolean, default: false },
             preferredLanguage: { type: String, default: 'en' },
