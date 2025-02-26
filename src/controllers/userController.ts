@@ -41,6 +41,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
             res.status(400).json({
                 message: 'No users found in database',
             });
+            return;
         }
 
         res.status(200).json({
@@ -82,6 +83,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             res.status(401).json({
                 message: 'Invalid email or password',
             });
+            return;
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {
@@ -95,6 +97,66 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
                 email: user.email,
                 token: token,
             },
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const getUserById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            res.status(400).json({ message: 'Enter a valid id' });
+            return;
+        }
+
+        const existingUser = await User.findOne({ _id: userId });
+
+        if (!existingUser) {
+            res.status(404).json({ message: 'No user found by that ID' });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'User found in database:',
+            user: existingUser,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({ error: err.message });
+    }
+};
+
+export const removeUserById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { userId } = req.params;
+
+        if (!userId) {
+            res.status(400).json({
+                message: 'Enter a correct user id',
+            });
+            return;
+        }
+
+        const existingUser = await User.findOne({ _id: userId });
+
+        if (!existingUser) {
+            res.status(404).json({
+                message: 'No user found by that ID',
+            });
+            return;
+        }
+
+        User.deleteOne({ _id: userId });
+
+        res.status(200).json({
+            message: 'User deleted successfully: ',
+            user: existingUser,
         });
     } catch (error: unknown) {
         const err = error as Error;
