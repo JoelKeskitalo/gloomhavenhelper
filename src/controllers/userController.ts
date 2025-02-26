@@ -47,6 +47,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
         res.status(200).json({
             message: 'Users found in database: ',
             users: users.map((user) => ({
+                id: user._id,
                 email: user.email,
                 password: user.password,
             })),
@@ -152,7 +153,7 @@ export const removeUserById = async (req: Request, res: Response): Promise<void>
             return;
         }
 
-        User.deleteOne({ _id: userId });
+        await User.deleteOne({ _id: userId });
 
         res.status(200).json({
             message: 'User deleted successfully: ',
