@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAbility extends Document {
-    _id: string;
     name: string;
     heroId: string;
     initiative: number;
