@@ -166,3 +166,5 @@ export const removeUserById = async (req: Request, res: Response): Promise<void>
         });
     }
 };
+
+// updateUserById
