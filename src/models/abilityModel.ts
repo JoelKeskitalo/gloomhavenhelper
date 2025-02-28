@@ -8,6 +8,7 @@ export interface IAbility extends Document {
     effects?: string[];
     element?: 'Fire' | 'Ice' | 'Air' | 'Light' | 'Dark' | null;
     imagePath?: string;
+    createdAt: Date;
 }
 
 const abilitySchema = new Schema<IAbility>(
