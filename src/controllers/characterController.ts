@@ -1,0 +1,28 @@
+import Character from '../models/characterModel';
+import { Request, Response } from 'express';
+
+export const getAllCharacters = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const characters = await Character.find({});
+
+        if (!characters) {
+            res.status(400).json({
+                message: 'No characters found in database',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Characters in the database: ',
+            characters: characters.map((character) => ({
+                character: character.name,
+                id: character._id,
+            })),
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};

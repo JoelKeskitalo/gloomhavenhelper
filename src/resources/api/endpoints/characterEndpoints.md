@@ -14,10 +14,6 @@ PUT: /api/characters/:characterId
 
 PUT: /api/user/character
 
-# Create a new character (for testing purposes)
-
-POST: /api/characters/
-
 # Remove a character by character ID (only when account is deleted)
 
 DELETE: /api/characters/:characterId
