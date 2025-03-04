@@ -1,5 +1,9 @@
 import express from 'express';
-import { getAllCharacters, getCharacterById } from '../controllers/characterController';
+import {
+    getAllCharacters,
+    getCharacterById,
+    updateCharacterStatsById,
+} from '../controllers/characterController';
 
 const router = express.Router();
 
@@ -7,7 +11,7 @@ const router = express.Router();
 router.get('/', getAllCharacters);
 // getCharacterById
 router.get('/:id', getCharacterById);
-// updateCharacterStatsById
+router.put('/:id', updateCharacterStatsById);
 // selectCharacterForUser
 // removeCharacterById
 
