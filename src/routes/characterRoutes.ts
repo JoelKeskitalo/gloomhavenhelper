@@ -1,11 +1,12 @@
 import express from 'express';
-import { getAllCharacters } from '../controllers/characterController';
+import { getAllCharacters, getCharacterById } from '../controllers/characterController';
 
 const router = express.Router();
 
 // api/characters
 router.get('/', getAllCharacters);
 // getCharacterById
+router.get('/:id', getCharacterById);
 // updateCharacterStatsById
 // selectCharacterForUser
 // removeCharacterById
