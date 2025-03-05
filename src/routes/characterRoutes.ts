@@ -3,6 +3,7 @@ import {
     getAllCharacters,
     getCharacterById,
     updateCharacterStatsById,
+    removeCharacterById,
 } from '../controllers/characterController';
 
 const router = express.Router();
@@ -12,5 +13,6 @@ router.get('/', getAllCharacters);
 router.get('/:id', getCharacterById);
 router.put('/:id', updateCharacterStatsById);
 // removeCharacterById
+router.delete('/:id', removeCharacterById);
 
 export default router;

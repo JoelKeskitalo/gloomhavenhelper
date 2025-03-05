@@ -112,3 +112,33 @@ export const updateCharacterStatsById = async (req: Request, res: Response): Pro
         });
     }
 };
+
+export const removeCharacterById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const characterId = req.params.id;
+
+        if (!characterId) {
+            res.status(400).json({ message: 'Character ID is required' });
+            return;
+        }
+
+        const character = await Character.findById(characterId);
+        if (!character) {
+            res.status(404).json({ message: 'Character not found' });
+            return;
+        }
+
+        // Removing the reference from User
+        await User.updateMany({ character: characterId }, { $unset: { character: '' } });
+
+        await character.deleteOne();
+
+        res.status(200).json({
+            message: 'Character deleted successfully and removed from associated users.',
+            characterId,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({ error: err.message });
+    }
+};
