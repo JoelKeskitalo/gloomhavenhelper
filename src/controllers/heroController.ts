@@ -17,13 +17,45 @@ export const getAllHeroes = async (req: Request, res: Response): Promise<void> =
             heroes: heroes.map((hero) => ({
                 name: hero.name,
                 class: hero.class,
-                healthPerLevel: hero.healthPerLevel,
                 startingAbilities: hero.startingAbilities,
+                id: hero._id,
             })),
         });
     } catch (error: unknown) {
         const err = error as Error;
 
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const getHeroById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const heroId = req.params.id;
+
+        if (!heroId) {
+            res.status(400).json({
+                message: 'Enter a valid hero id',
+            });
+            return;
+        }
+
+        const hero = await Hero.findById(heroId);
+
+        if (!hero) {
+            res.status(404).json({
+                message: 'Hero not found',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Hero found: ',
+            hero: hero.name,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
         res.status(500).json({
             error: err.message,
         });
