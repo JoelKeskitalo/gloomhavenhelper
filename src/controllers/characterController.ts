@@ -1,4 +1,5 @@
 import Character from '../models/characterModel';
+import User from '../models/userModel';
 import { Request, Response } from 'express';
 
 export const getAllCharacters = async (req: Request, res: Response): Promise<void> => {

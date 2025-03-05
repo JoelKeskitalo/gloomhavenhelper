@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel';
+import Character from '../models/characterModel';
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -50,6 +51,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
                 id: user._id,
                 email: user.email,
                 password: user.password,
+                character: user.character,
             })),
         });
     } catch (error: unknown) {
@@ -158,6 +160,61 @@ export const removeUserById = async (req: Request, res: Response): Promise<void>
         res.status(200).json({
             message: 'User deleted successfully: ',
             user: existingUser,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const selectCharacterForUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userId = req.params.userId;
+        const { characterId } = req.body;
+
+        if (!userId || !characterId) {
+            res.status(400).json({
+                message: 'Both userId and characterId are required',
+            });
+            return;
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            res.status(404).json({
+                message: 'User not found',
+            });
+            return;
+        }
+
+        if (user.character) {
+            res.status(400).json({
+                message: 'User already has a selected character',
+            });
+        }
+
+        const character = await Character.findById(characterId);
+
+        if (!character) {
+            res.status(404).json({
+                message: 'Character not found',
+            });
+            return;
+        }
+
+        user.character = characterId;
+        await user.save();
+
+        res.status(200).json({
+            message: 'Character successfully selected for user.',
+            user: {
+                id: user._id,
+                email: user.email,
+                character: character._id,
+            },
         });
     } catch (error: unknown) {
         const err = error as Error;
