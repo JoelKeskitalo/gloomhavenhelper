@@ -4,6 +4,7 @@ import {
     getHeroById,
     createHero,
     updateHeroDetailsById,
+    deleteHeroById,
 } from '../controllers/heroController';
 
 const router = express.Router();
@@ -13,6 +14,6 @@ router.get('/', getAllHeroes);
 router.get('/:id', getHeroById);
 router.post('/', createHero);
 router.patch('/:id', updateHeroDetailsById);
-// deleteHeroById (admin use)
+router.delete('/:id', deleteHeroById);
 
 export default router;

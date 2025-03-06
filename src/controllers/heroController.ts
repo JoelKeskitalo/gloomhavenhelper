@@ -122,7 +122,30 @@ export const updateHeroDetailsById = async (req: Request, res: Response): Promis
         }
 
         res.status(200).json({ message: 'Hero updated', hero: updatedHero });
-    } catch (error) {
-        res.status(500).json({ error: (error as Error).message });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const deleteHeroById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        const deletedHero = await Hero.findByIdAndDelete(id);
+
+        if (!deletedHero) {
+            res.status(404).json({ message: 'Hero not found' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Hero deleted successfully' });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
     }
 };
