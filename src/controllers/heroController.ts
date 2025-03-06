@@ -100,3 +100,29 @@ export const createHero = async (req: Request, res: Response): Promise<void> => 
         });
     }
 };
+
+export const updateHeroDetailsById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+
+        if (!updates || Object.keys(updates).length === 0) {
+            res.status(400).json({ message: 'Please provide at least one field to update' });
+            return;
+        }
+
+        const updatedHero = await Hero.findByIdAndUpdate(id, updates, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updatedHero) {
+            res.status(404).json({ message: 'Hero not found' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Hero updated', hero: updatedHero });
+    } catch (error) {
+        res.status(500).json({ error: (error as Error).message });
+    }
+};
