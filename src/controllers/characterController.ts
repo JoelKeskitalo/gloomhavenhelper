@@ -1,5 +1,6 @@
 import Character from '../models/characterModel';
 import User from '../models/userModel';
+import Ability from '../models/abilityModel';
 import { Request, Response } from 'express';
 
 export const getAllCharacters = async (req: Request, res: Response): Promise<void> => {
@@ -50,6 +51,8 @@ export const getCharacterById = async (req: Request, res: Response): Promise<voi
             return;
         }
 
+        const abilities = await Ability.find({ characterId });
+
         res.status(200).json({
             message: 'Character found: ',
             character: {
@@ -58,6 +61,7 @@ export const getCharacterById = async (req: Request, res: Response): Promise<voi
                 user: foundCharacter.user,
                 level: foundCharacter.level,
                 experience: foundCharacter.experience,
+                abilities: abilities,
             },
         });
     } catch (error: unknown) {

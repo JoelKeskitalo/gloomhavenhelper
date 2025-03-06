@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAbility extends Document {
     name: string;
-    heroId: string;
+    characterId: string;
     initiative: number;
     effects?: string[];
     element?: 'Fire' | 'Ice' | 'Air' | 'Light' | 'Dark' | null;
@@ -13,16 +13,14 @@ export interface IAbility extends Document {
 const abilitySchema = new Schema<IAbility>(
     {
         name: { type: String, required: true, unique: true },
-        heroId: { type: String, required: true, unique: true },
-        initiative: { type: Number, required: true, unique: false },
-        effects: { type: [String], required: false, unique: false },
+        characterId: { type: String, required: true },
+        initiative: { type: Number, required: true },
+        effects: { type: [String] },
         element: {
             type: String,
             enum: ['Fire', 'Ice', 'Air', 'Light', 'Dark', null],
-            required: false,
-            unique: false,
         },
-        imagePath: { type: String, required: false, unique: true },
+        imagePath: { type: String, unique: true },
     },
     { timestamps: true }
 );
