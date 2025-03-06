@@ -61,3 +61,42 @@ export const getHeroById = async (req: Request, res: Response): Promise<void> =>
         });
     }
 };
+
+export const createHero = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { name, class: heroClass, healthPerLevel, startingAbilities } = req.body;
+
+        if (!name || !heroClass || !healthPerLevel || !startingAbilities) {
+            res.status(400).json({
+                message: 'Enter the required fields',
+            });
+            return;
+        }
+
+        const existingHero = await Hero.findOne({ name });
+        if (existingHero) {
+            res.status(400).json({
+                message: 'Hero already exists',
+            });
+        }
+
+        const hero = new Hero({
+            name: name,
+            class: heroClass,
+            healthPerLevel: healthPerLevel,
+            startingAbilities: startingAbilities,
+        });
+
+        await hero.save();
+
+        res.status(200).json({
+            message: 'Hero created successfully',
+            hero: hero,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
