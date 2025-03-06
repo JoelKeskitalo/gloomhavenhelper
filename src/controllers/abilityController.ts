@@ -50,3 +50,32 @@ export const getAbilityCardById = async (req: Request, res: Response): Promise<v
         });
     }
 };
+
+export const getAbilitiesByCharacterId = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const characterId = req.params.id;
+
+        const abilities = await Ability.find({ characterId });
+
+        if (abilities.length === 0) {
+            res.status(400).json({
+                message: 'No abilities found',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Abilities attached to character id found',
+            characterId: characterId,
+            abilities: abilities.map((ability) => ({
+                name: ability.name,
+                initiative: ability.initiative,
+            })),
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
