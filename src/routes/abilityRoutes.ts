@@ -3,6 +3,7 @@ import {
     getAllAbilities,
     getAbilityCardById,
     getAbilitiesByCharacterId,
+    updateCharacterAbilityDeck,
 } from '../controllers/abilityController';
 
 const router = express.Router();
@@ -11,6 +12,6 @@ const router = express.Router();
 router.get('/', getAllAbilities);
 router.get('/:id', getAbilityCardById);
 router.get('/character/:id', getAbilitiesByCharacterId);
-// updateCharacterAbilityDeck (remove/add)
+router.patch('/character/:id/deck', updateCharacterAbilityDeck);
 
 export default router;
