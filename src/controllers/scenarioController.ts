@@ -130,3 +130,27 @@ export const updateScenarioDetailsById = async (req: Request, res: Response): Pr
         res.status(500).json({ error: (error as Error).message });
     }
 };
+
+export const deleteScenarioById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        const deletedScenario = await Scenario.findByIdAndDelete(id);
+
+        if (!deletedScenario) {
+            res.status(404).json({
+                message: 'Scenario not found',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Scenario deleted successfully',
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};

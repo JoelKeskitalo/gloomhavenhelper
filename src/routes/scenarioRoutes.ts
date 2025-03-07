@@ -4,17 +4,16 @@ import {
     getScenarioById,
     createScenario,
     updateScenarioDetailsById,
+    deleteScenarioById,
 } from '../controllers/scenarioController';
 
 const router = express.Router();
 
 // /api/scenarios
-
 router.get('/', getAllScenarios);
 router.get('/:id', getScenarioById);
 router.post('/', createScenario);
-// updateScenarioDetailsById (admin use)
 router.patch('/:id', updateScenarioDetailsById);
-// deleteScenarioById
+router.delete('/:id', deleteScenarioById);
 
 export default router;
