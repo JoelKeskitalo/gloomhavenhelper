@@ -3,6 +3,7 @@ import {
     getAllScenarios,
     getScenarioById,
     createScenario,
+    updateScenarioDetailsById,
 } from '../controllers/scenarioController';
 
 const router = express.Router();
@@ -11,9 +12,9 @@ const router = express.Router();
 
 router.get('/', getAllScenarios);
 router.get('/:id', getScenarioById);
-// createANewScenario (admin use)
 router.post('/', createScenario);
 // updateScenarioDetailsById (admin use)
+router.patch('/:id', updateScenarioDetailsById);
 // deleteScenarioById
 
 export default router;

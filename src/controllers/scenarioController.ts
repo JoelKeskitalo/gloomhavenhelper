@@ -101,3 +101,32 @@ export const createScenario = async (req: Request, res: Response): Promise<void>
         });
     }
 };
+
+export const updateScenarioDetailsById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const updates = req.body;
+
+        if (!updates || Object.keys(updates).length === 0) {
+            res.status(400).json({ message: 'No update data provided' });
+            return;
+        }
+
+        const updatedScenario = await Scenario.findByIdAndUpdate(id, updates, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updatedScenario) {
+            res.status(404).json({ message: 'Scenario not found' });
+            return;
+        }
+
+        res.status(200).json({
+            message: 'Scenario updated successfully',
+            scenario: updatedScenario,
+        });
+    } catch (error) {
+        res.status(500).json({ error: (error as Error).message });
+    }
+};
