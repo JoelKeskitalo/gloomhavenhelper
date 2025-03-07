@@ -19,7 +19,39 @@ export const getAllScenarios = async (req: Request, res: Response): Promise<void
                 location: scenario.location,
                 rewards: scenario.rewards,
                 requirements: scenario.requirements,
+                id: scenario._id,
             })),
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const getScenarioById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const scenarioId = req.params.id;
+
+        if (!scenarioId) {
+            res.status(400).json({
+                message: 'Enter a valid scenario ID',
+            });
+            return;
+        }
+
+        const scenario = await Scenario.findById(scenarioId);
+
+        if (!scenario) {
+            res.status(404).json({
+                message: 'Scenario not found',
+            });
+            return;
+        }
+
+        res.status(200).json({
+            scenario: scenario,
         });
     } catch (error: unknown) {
         const err = error as Error;

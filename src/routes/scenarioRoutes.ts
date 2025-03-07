@@ -1,12 +1,12 @@
 import express from 'express';
-import { getAllScenarios } from '../controllers/scenarioController';
+import { getAllScenarios, getScenarioById } from '../controllers/scenarioController';
 
 const router = express.Router();
 
 // /api/scenarios
 
 router.get('/', getAllScenarios);
-// getScenarioById
+router.get('/:id', getScenarioById);
 // createANewScenario (admin use)
 // updateScenarioDetailsById (admin use)
 // deleteScenarioById
