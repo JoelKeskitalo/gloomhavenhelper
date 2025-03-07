@@ -60,3 +60,44 @@ export const getScenarioById = async (req: Request, res: Response): Promise<void
         });
     }
 };
+
+export const createScenario = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { name, description, location, rewards, requirements } = req.body;
+
+        if (!name || !description || !location) {
+            res.status(400).json({
+                message: 'Please enter name, description and location of the scenario',
+            });
+            return;
+        }
+
+        const existingScenario = await Scenario.findOne({ name });
+        if (existingScenario) {
+            res.status(400).json({
+                message: 'Scenario already exists',
+            });
+            return;
+        }
+
+        const scenario = new Scenario({
+            name: name,
+            description: description,
+            location: location,
+            rewards: rewards,
+            requirements: requirements,
+        });
+
+        await scenario.save();
+
+        res.status(200).json({
+            message: 'Scenario created successfully',
+            scenario: scenario,
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
