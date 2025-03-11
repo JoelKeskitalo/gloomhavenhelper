@@ -4,7 +4,7 @@ import characterSchema, { ICharacter } from './characterModel';
 export interface IUser extends Document {
     email: string;
     password: string;
-    character: ICharacter; // reference to character
+    character: ICharacter;
     // playedScenarios: PlayedScenario[];
     settings: {
         enableDarkMode: boolean;

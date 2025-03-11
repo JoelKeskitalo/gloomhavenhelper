@@ -4,7 +4,7 @@ export interface IHero extends Document {
     name: string;
     class: 'Hatchet' | 'Red Guard' | 'VoidWarden' | 'Demolitionist';
     healthPerLevel: number[];
-    startingAbilities: Schema.Types.ObjectId[]; // itemModel
+    startingAbilities: Schema.Types.ObjectId[];
     imagePath?: string;
 }
 

@@ -15,7 +15,7 @@ const playedScenarioSchema = new Schema<IPlayedScenario>({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     scenario: { type: Schema.Types.ObjectId, ref: 'Scenario', required: true },
     playedAt: { type: Date, default: Date.now },
-    receivedItems: { type: [String], required: true },
+    receivedItems: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
     receivedExperience: { type: Number, required: true },
     receivedGold: { type: Number, required: true },
     success: { type: Boolean, required: true },
