@@ -19,6 +19,7 @@ app.use('/api/characters', characterRoutes);
 app.use('/api/heroes', heroRoutes);
 app.use('/api/abilities', abilityRoutes);
 app.use('/api/scenarios', scenarioRoutes);
+app.use('/api/scenarios/played', playedScenarioRoutes);
 
 app.get('/', (req: any, res: any) => {
     res.send('Api is running...');

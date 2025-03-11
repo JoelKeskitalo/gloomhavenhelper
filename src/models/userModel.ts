@@ -1,9 +1,10 @@
 import mongoose, { Schema, Document } from 'mongoose';
+import characterSchema, { ICharacter } from './characterModel';
 
 export interface IUser extends Document {
     email: string;
     password: string;
-    character: mongoose.Schema.Types.ObjectId; // reference to character
+    character: ICharacter; // reference to character
     // playedScenarios: PlayedScenario[];
     settings: {
         enableDarkMode: boolean;
@@ -17,7 +18,7 @@ const userSchema = new Schema<IUser>(
     {
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        character: { type: mongoose.Schema.Types.ObjectId, ref: 'Character' },
+        character: { type: characterSchema },
         // playedScenarios: { type: [Schema.Types.ObjectId], ref: 'PlayedScenario' },
         settings: {
             enableDarkMode: { type: Boolean, default: false },

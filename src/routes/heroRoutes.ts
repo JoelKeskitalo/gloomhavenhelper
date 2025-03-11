@@ -12,8 +12,9 @@ const router = express.Router();
 // /api/heroes
 router.get('/', getAllHeroes);
 router.get('/:id', getHeroById);
-router.post('/', createHero);
-router.patch('/:id', updateHeroDetailsById);
-router.delete('/:id', deleteHeroById);
+router.post('/', createHero); // dev/admin use
+router.patch('/:id', updateHeroDetailsById); // dev/admin use
+router.delete('/:id', deleteHeroById); // dev/admin use
+// develop function for development environment confirmation
 
 export default router;

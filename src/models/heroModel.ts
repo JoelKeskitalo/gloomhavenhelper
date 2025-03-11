@@ -4,10 +4,11 @@ export interface IHero extends Document {
     name: string;
     class: 'Hatchet' | 'Red Guard' | 'VoidWarden' | 'Demolitionist';
     healthPerLevel: number[];
-    startingAbilities: string[];
+    startingAbilities: Schema.Types.ObjectId[]; // itemModel
     imagePath?: string;
 }
 
+// check if toJsonSchema needs explicit typing
 const heroSchema = new Schema<IHero>({
     name: { type: String, required: true },
     class: {
@@ -16,7 +17,7 @@ const heroSchema = new Schema<IHero>({
         required: true,
     },
     healthPerLevel: { type: [Number], required: true },
-    startingAbilities: { type: [String], required: true },
+    startingAbilities: { type: [{ type: Schema.Types.ObjectId, ref: 'Ability' }], required: true },
     imagePath: { type: String, required: false },
 });
 

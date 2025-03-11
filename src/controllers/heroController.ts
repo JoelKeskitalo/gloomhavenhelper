@@ -5,22 +5,10 @@ export const getAllHeroes = async (req: Request, res: Response): Promise<void> =
     try {
         const heroes = await Hero.find({});
 
-        if (heroes.length === 0) {
-            res.status(404).json({
-                message: 'No heroes found',
-            });
-            return;
-        }
-
-        res.status(200).json({
-            message: 'All heroes in database: ',
-            heroes: heroes.map((hero) => ({
-                name: hero.name,
-                class: hero.class,
-                startingAbilities: hero.startingAbilities,
-                id: hero._id,
-            })),
-        });
+        res.status(200).json(
+            // consider same for similar
+            heroes.map((hero) => hero.toJSON())
+        );
     } catch (error: unknown) {
         const err = error as Error;
 
@@ -32,6 +20,7 @@ export const getAllHeroes = async (req: Request, res: Response): Promise<void> =
 
 export const getHeroById = async (req: Request, res: Response): Promise<void> => {
     try {
+        // test if necessary, express might force params
         const heroId = req.params.id;
 
         if (!heroId) {
@@ -50,10 +39,8 @@ export const getHeroById = async (req: Request, res: Response): Promise<void> =>
             return;
         }
 
-        res.status(200).json({
-            message: 'Hero found: ',
-            hero: hero.name,
-        });
+        // consider removal of status 200, might be automatic 200 response
+        res.status(200).json(hero.toJSON());
     } catch (error: unknown) {
         const err = error as Error;
         res.status(500).json({
