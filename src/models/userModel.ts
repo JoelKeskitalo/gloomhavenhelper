@@ -5,7 +5,7 @@ export interface IUser extends Document {
     email: string;
     password: string;
     character: ICharacter;
-    // playedScenarios: PlayedScenario[];
+    playedScenarios: mongoose.Schema.Types.ObjectId[];
     settings: {
         enableDarkMode: boolean;
         preferredLanguage: string;
@@ -19,7 +19,7 @@ const userSchema = new Schema<IUser>(
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         character: { type: characterSchema },
-        // playedScenarios: { type: [Schema.Types.ObjectId], ref: 'PlayedScenario' },
+        playedScenarios: [{ type: Schema.Types.ObjectId, ref: 'PlayedScenario' }],
         settings: {
             enableDarkMode: { type: Boolean, default: false },
             preferredLanguage: { type: String, default: 'en' },
@@ -30,5 +30,4 @@ const userSchema = new Schema<IUser>(
 );
 
 const User = mongoose.model<IUser>('User', userSchema);
-
 export default User;
