@@ -17,7 +17,7 @@ const monsterSchema = new Schema<IMonster>({
     health: { type: Number, required: true },
     attack: { type: Number, required: true },
     defense: { type: Number, required: true },
-    abilities: [{ type: Schema.Types.ObjectId, ref: 'Ability', required: true }], // ✅ Koppling till AbilityModel
+    abilities: [{ type: Schema.Types.ObjectId, ref: 'Ability', required: true }],
     isBoss: { type: Boolean, default: false },
     imagePath: { type: String },
 });

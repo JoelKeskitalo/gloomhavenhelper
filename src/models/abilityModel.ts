@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAbility extends Document {
     name: string;
-    characterId: Mongoose.Schema.Types.ObjectId;
+    characterId: mongoose.Schema.Types.ObjectId;
     initiative: number;
     effects?: string[];
     element?: 'Fire' | 'Ice' | 'Air' | 'Light' | 'Dark' | null;
