@@ -1,13 +1,18 @@
 import express from 'express';
+import {
+    getPlayedScenarios,
+    getUserPlayedScenarios,
+    addPlayedScenario,
+    deletePlayedScenario,
+} from '../controllers/playedScenarioController';
 
 const router = express.Router();
 
-// /api/scenarios/played
+// /api/played-scenarios
 
-// getAllPlayedScenarios
-// getPlayedScenarioByUserId
-// getPlayedScenarioByCharacterId
-// logNewPlayedScenario
-// updateScenarioDetailsById
-// deletePlayedScenarioById
+router.get('/', getPlayedScenarios);
+router.get('/:userId', getUserPlayedScenarios);
+router.post('/', addPlayedScenario);
+router.delete('/:scenarioId', deletePlayedScenario);
+
 export default router;

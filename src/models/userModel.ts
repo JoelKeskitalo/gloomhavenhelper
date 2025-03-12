@@ -18,7 +18,7 @@ const userSchema = new Schema<IUser>(
     {
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        character: { type: characterSchema },
+        character: { type: Schema.Types.ObjectId, ref: 'Character' },
         playedScenarios: [{ type: Schema.Types.ObjectId, ref: 'PlayedScenario' }],
         settings: {
             enableDarkMode: { type: Boolean, default: false },

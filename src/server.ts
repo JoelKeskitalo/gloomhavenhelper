@@ -7,6 +7,7 @@ import characterRoutes from './routes/characterRoutes';
 import heroRoutes from './routes/heroRoutes';
 import abilityRoutes from './routes/abilityRoutes';
 import scenarioRoutes from './routes/scenarioRoutes';
+import playedScenarioRoutes from './routes/playedScenarioRoutes';
 
 const { PORT } = config;
 
@@ -19,7 +20,7 @@ app.use('/api/characters', characterRoutes);
 app.use('/api/heroes', heroRoutes);
 app.use('/api/abilities', abilityRoutes);
 app.use('/api/scenarios', scenarioRoutes);
-app.use('/api/scenarios/played', playedScenarioRoutes);
+app.use('/api/played-scenarios', playedScenarioRoutes);
 
 app.get('/', (req: any, res: any) => {
     res.send('Api is running...');
