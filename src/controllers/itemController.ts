@@ -50,14 +50,13 @@ export const updateCharacterInventory = async (req: Request, res: Response): Pro
             return;
         }
 
-        // Validera att item existerar i Item-collectionen
         const existingItem = await Item.findById(item);
         if (!existingItem) {
             res.status(404).json({ message: 'Item not found' });
             return;
         }
 
-        const itemObjectId = new mongoose.mongo.ObjectId(item); // 🔥 Fixad konvertering
+        const itemObjectId = new mongoose.mongo.ObjectId(item);
 
         if (action === 'add') {
             character.items.push(itemObjectId);
