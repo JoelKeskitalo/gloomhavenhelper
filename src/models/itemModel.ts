@@ -7,6 +7,7 @@ export interface IItem extends Document {
     cost: number;
     uses?: number;
     imagePath?: string;
+    owner?: mongoose.Schema.Types.ObjectId; // <--- character
 }
 
 const itemSchema = new Schema<IItem>({
@@ -16,6 +17,7 @@ const itemSchema = new Schema<IItem>({
     cost: { type: Number, required: true },
     uses: { type: Number },
     imagePath: { type: String },
+    owner: { type: Schema.Types.ObjectId, ref: 'Character', required: false },
 });
 
 const Item = mongoose.model<IItem>('Item', itemSchema);

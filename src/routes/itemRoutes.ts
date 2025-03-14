@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllItems, getItemById } from '../controllers/itemController';
+import { getAllItems, getItemById, updateCharacterInventory } from '../controllers/itemController';
 
 const router = express.Router();
 

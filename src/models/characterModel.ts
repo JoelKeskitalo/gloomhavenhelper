@@ -9,7 +9,7 @@ export interface ICharacter extends Document {
     health: number;
     stamina?: number;
     abilities: string[];
-    items: string[];
+    items: mongoose.Types.ObjectId[]; // <--- Item
     perks: string[];
     user: mongoose.Schema.Types.ObjectId;
     imagePath?: string;
@@ -26,7 +26,7 @@ const characterSchema = new Schema<ICharacter>(
         health: { type: Number, required: true },
         stamina: { type: Number, required: false },
         abilities: { type: [String], required: true },
-        items: { type: [String], required: false },
+        items: [{ type: mongoose.Types.ObjectId, ref: 'Item' }],
         perks: { type: [String], required: false },
         user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         imagePath: { type: String, required: false },
