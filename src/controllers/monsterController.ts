@@ -72,3 +72,19 @@ export const updateMonster = async (req: Request, res: Response): Promise<void> 
         });
     }
 };
+
+export const deleteMonsterById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const deletedMonster = await Monster.findByIdAndDelete(id);
+
+        if (!deletedMonster) {
+            res.status(404).json({ message: 'Monster not found' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Monster deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting monster', error });
+    }
+};
