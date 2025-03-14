@@ -105,3 +105,22 @@ export const updateDeck = async (req: Request, res: Response): Promise<void> => 
         });
     }
 };
+
+export const deleteDeck = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const deletedDeck = await Deck.findByIdAndDelete(id);
+
+        if (!deletedDeck) {
+            res.status(404).json({ message: 'Deck not found' });
+            return;
+        }
+
+        res.status(200).json({ message: 'Deck deleted successfully' });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
