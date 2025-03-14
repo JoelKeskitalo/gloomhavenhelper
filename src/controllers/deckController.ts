@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Deck from '../models/deckModel';
+import User from '../models/userModel';
 
 export const getAllDecks = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -31,6 +32,39 @@ export const getDeckById = async (req: Request, res: Response): Promise<void> =>
         }
 
         res.status(200).json(deck);
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
+
+export const createDeck = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { name, user, abilities, items, imagePath } = req.body;
+
+        const existingUser = await User.findById(user);
+        if (!existingUser) {
+            res.status(404).json({
+                message: 'User not found',
+            });
+        }
+
+        const newDeck = new Deck({
+            name,
+            user,
+            abilities,
+            items,
+            imagePath,
+        });
+
+        const savedDeck = await newDeck.save();
+
+        res.status(201).json({
+            message: 'Deck created successfully',
+            deck: savedDeck,
+        });
     } catch (error: unknown) {
         const err = error as Error;
         res.status(500).json({
