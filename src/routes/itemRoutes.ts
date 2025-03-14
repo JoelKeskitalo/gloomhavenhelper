@@ -1,9 +1,10 @@
 import express from 'express';
-import { getAllItems } from '../controllers/itemController';
+import { getAllItems, getItemById } from '../controllers/itemController';
 
 const router = express.Router();
 
 // /api/items
 router.get('/', getAllItems);
+router.get('/:id', getItemById);
 
 export default router;
