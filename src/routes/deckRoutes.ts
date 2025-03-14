@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllDecks, getDeckById, createDeck } from '../controllers/deckController';
+import { getAllDecks, getDeckById, createDeck, updateDeck } from '../controllers/deckController';
 
 const router = express.Router();
 
@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/', getAllDecks);
 router.get('/:id', getDeckById);
 router.post('/', createDeck);
+router.put('/:id', updateDeck);
 
 export default router;
