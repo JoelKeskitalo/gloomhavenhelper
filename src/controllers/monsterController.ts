@@ -1,9 +1,13 @@
 import Monster from '../models/monsterModel';
+import Ability from '../models/abilityModel';
 import { Request, Response } from 'express';
 
 export const getAllMonsters = async (req: Request, res: Response): Promise<void> => {
     try {
-        const monsters = await Monster.find().populate('abilities');
+        const monsters = await Monster.find().populate({
+            path: 'abilities',
+            select: 'name initiative effects element',
+        });
         res.status(200).json(monsters);
     } catch (error: unknown) {
         const err = error as Error;
@@ -38,6 +42,11 @@ export const createMonster = async (req: Request, res: Response): Promise<void> 
     try {
         const newMonster = new Monster(req.body);
         const savedMonster = await newMonster.save();
+
+        await Ability.updateMany(
+            { _id: { $in: savedMonster.abilities } },
+            { $set: { monsterId: savedMonster._id } }
+        );
         res.status(201).json({
             message: 'Monster created',
             monster: savedMonster,
