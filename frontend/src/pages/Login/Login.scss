@@ -1,0 +1,58 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.login-container {
+    @include flex-center;
+    height: 100vh;
+    background-color: $background-color;
+}
+
+.login-box {
+    background-color: $card-bg;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.login-title {
+    color: $primary-color;
+    margin-bottom: 1rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-input {
+    padding: 10px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    background-color: $background-color;
+    color: $text-color;
+    font-size: 1rem;
+}
+
+.login-button {
+    @include button-style;
+    width: 100%;
+}
+
+.login-links {
+    margin-top: 1rem;
+}
+
+.forgot-password,
+.register-link {
+    display: block;
+    margin-top: 0.5rem;
+    color: $text-color;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
