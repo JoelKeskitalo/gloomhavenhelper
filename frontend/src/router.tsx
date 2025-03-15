@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import Account from './components/Account/Account';
 import Decks from './components/Decks/Decks';
 import Hero from './components/Hero/Hero';
@@ -10,10 +13,12 @@ const Router = () => {
         <BrowserRouter>
             <Navbar />
             <Routes>
-                <Route path="/" element={<Hero />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/hero" element={<Hero />} />
                 <Route path="/decks" element={<Decks />} />
-                <Route path="rules" element={<Rules />} />
+                <Route path="/rules" element={<Rules />} />
                 <Route path="/account" element={<Account />} />
             </Routes>
         </BrowserRouter>
