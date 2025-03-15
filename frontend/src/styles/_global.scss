@@ -1,0 +1,19 @@
+@use 'variables';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: variables.$font-family;
+    background-color: variables.$background-color;
+    color: variables.$text-color;
+}
+
+h1,
+h2,
+h3 {
+    color: variables.$primary-color;
+}
