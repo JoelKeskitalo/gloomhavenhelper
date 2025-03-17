@@ -1,0 +1,49 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
+.hero-container {
+    @include flex-center;
+    height: 100vh;
+    background-color: $background-color;
+}
+
+.hero-box {
+    background-color: $card-bg;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.hero-title {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+}
+
+.hero-text {
+    color: $text-color;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.hero-button {
+    background-color: $accent-color;
+    color: $text-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: color.adjust($accent-color, $lightness: 10%);
+    }
+}
