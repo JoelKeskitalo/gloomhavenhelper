@@ -1,0 +1,45 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
+.rules-container {
+    @include flex-center;
+    height: 100vh;
+    background-color: $background-color;
+}
+
+.rules-box {
+    background-color: $card-bg;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.rules-title {
+    color: $primary-color;
+    margin-bottom: 1.5rem;
+}
+
+.rules-text {
+    color: $text-color;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.rules-input {
+    padding: 10px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    background-color: $background-color;
+    color: $text-color;
+    font-size: 1rem;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.rules-results {
+    margin-top: 1rem;
+    color: $text-color;
+}
