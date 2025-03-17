@@ -1,0 +1,51 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
+
+.navbar {
+    background-color: $card-bg;
+    padding: 1rem 2rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.navbar-logo {
+    color: $primary-color;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar-link {
+    color: $text-color;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &.active {
+        color: color.adjust($accent-color, $lightness: 10%);
+        font-weight: bold;
+    }
+
+    &:hover {
+        color: color.adjust($accent-color, $lightness: 15%);
+    }
+}
