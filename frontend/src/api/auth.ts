@@ -13,7 +13,7 @@ interface LoginResponse {
 
 export const loginUser = async (credentials: LoginPayload): Promise<LoginResponse> => {
     try {
-        const response = await axios.post<LoginResponse>('/api/auth/login', credentials);
+        const response = await axios.post<LoginResponse>('/api/users/login', credentials);
         return response.data;
     } catch (error: unknown) {
         const err = error as Error & { response?: { data?: { message?: string } } };
