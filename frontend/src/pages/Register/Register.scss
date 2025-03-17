@@ -1,0 +1,57 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.register-container {
+    @include flex-center;
+    height: 100vh;
+    background-color: $background-color;
+}
+
+.register-box {
+    background-color: $card-bg;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.register-title {
+    color: $primary-color;
+    margin-bottom: 1rem;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.register-input {
+    padding: 10px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    background-color: $background-color;
+    color: $text-color;
+    font-size: 1rem;
+}
+
+.register-button {
+    @include button-style;
+    width: 100%;
+}
+
+.register-links {
+    margin-top: 1rem;
+}
+
+.login-link {
+    display: block;
+    margin-top: 0.5rem;
+    color: $text-color;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
