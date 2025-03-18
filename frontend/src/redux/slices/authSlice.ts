@@ -1,11 +1,35 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthState, User } from '../../types/auth';
-import { getUserById } from '../../api/auth';
+import { AuthState, User, RegisterPayload, LoginPayload } from '../../types/auth';
+import { registerUser, loginUser, getUserById } from '../../api/auth';
 
 const initialState: AuthState = {
     user: null,
     isAuthenticated: false,
 };
+
+export const registerUserThunk = createAsyncThunk<User, RegisterPayload>(
+    'auth/registerUser',
+    async (credentials, { rejectWithValue }) => {
+        try {
+            const response = await registerUser(credentials);
+            return response.user;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
+export const loginUserThunk = createAsyncThunk<User, LoginPayload>(
+    'auth/loginUser',
+    async (credentials, { rejectWithValue }) => {
+        try {
+            const response = await loginUser(credentials);
+            return response.user;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
 
 export const fetchUser = createAsyncThunk<User, string>(
     'auth/fetchUser',
@@ -22,16 +46,20 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login: (state, action: PayloadAction<User>) => {
-            state.user = action.payload;
-            state.isAuthenticated = true;
-        },
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(registerUserThunk.fulfilled, (state, action) => {
+            state.user = action.payload;
+            state.isAuthenticated = true;
+        });
+        builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+            state.user = action.payload;
+            state.isAuthenticated = true;
+        });
         builder.addCase(fetchUser.fulfilled, (state, action) => {
             state.user = action.payload;
             state.isAuthenticated = true;
@@ -39,5 +67,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
