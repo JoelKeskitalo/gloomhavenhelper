@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and recieve state from redux store
-import { login } from '../../redux/slices/authSlice'; // redux action, updates state with successful login
+import { login, fetchUser } from '../../redux/slices/authSlice'; // redux action, updates state with successful login
 import { loginUser } from '../../api/auth'; // api function, post call to backend for authentication
 import './Login.scss';
 
@@ -13,6 +13,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     const isAuthenticated = useAuthSelector((state) => state.auth.isAuthenticated);
+
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/hero');
@@ -24,7 +25,10 @@ const Login = () => {
         setError(null);
         try {
             const userData = await loginUser({ email, password });
-            dispatch(login(userData.user)); // Sparar användaren i Redux
+            dispatch(login(userData.user)); // Saves the user in redux
+            dispatch(fetchUser(userData.user.id));
+            console.log(`Welcome ${userData.user.id}`);
+            navigate('/hero');
         } catch (error: unknown) {
             const err = error as Error;
             setError(err.message);
