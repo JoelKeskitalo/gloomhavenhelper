@@ -1,16 +1,11 @@
 import axios from 'axios';
-import { User } from '../types/auth';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-interface LoginPayload {
-    email: string;
-    password: string;
-}
-
-interface LoginResponse {
-    user: User;
-    token: string;
-}
+import {
+    User,
+    RegisterPayload,
+    RegisterResponse,
+    LoginPayload,
+    LoginResponse,
+} from '../types/auth';
 
 export const loginUser = async (credentials: LoginPayload): Promise<LoginResponse> => {
     try {
