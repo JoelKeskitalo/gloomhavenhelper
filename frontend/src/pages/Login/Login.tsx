@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and recieve state from redux store
-import { login, fetchUser } from '../../redux/slices/authSlice'; // redux action, updates state with successful login
+import { fetchUser } from '../../redux/slices/authSlice'; // redux action, updates state with successful login
 import { loginUser } from '../../api/auth'; // api function, post call to backend for authentication
 import './Login.scss';
 
