@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and recieve state from redux store
-import { fetchUser } from '../../redux/slices/authSlice'; // redux action, updates state with successful login
-import { loginUser } from '../../api/auth'; // api function, post call to backend for authentication
+import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and receive state from redux store
+import { loginUserThunk } from '../../redux/slices/authSlice';
 import './Login.scss';
 
 const Login = () => {
@@ -20,15 +19,12 @@ const Login = () => {
         }
     }, [isAuthenticated, navigate]);
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
         try {
-            const userData = await loginUser({ email, password });
-            dispatch(login(userData.user)); // Saves the user in redux
-            dispatch(fetchUser(userData.user.id));
-            console.log(`Welcome ${userData.user.id}`);
-            navigate('/hero');
+            await dispatch(loginUserThunk({ email, password })).unwrap();
+            navigate('/hero'); // Redirect to hero page after login
         } catch (error: unknown) {
             const err = error as Error;
             setError(err.message);
@@ -39,7 +35,7 @@ const Login = () => {
         <div className="login-container">
             <div className="login-box">
                 <h1 className="login-title">Welcome Back</h1>
-                <form className="login-form" onSubmit={handleLogin}>
+                <form className="login-form" onSubmit={handleSubmit}>
                     {error && <p className="error-message">{error}</p>}
                     <input
                         type="email"
