@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import { registerUserThunk } from '../../redux/slices/authSlice';
+import { registerUserThunk } from '../../redux/thunks/authThunks';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './Register.scss';

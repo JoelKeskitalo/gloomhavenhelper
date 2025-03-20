@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and receive state from redux store
-import { loginUserThunk } from '../../redux/slices/authSlice';
+import { loginUserThunk } from '../../redux/thunks/authThunks';
 import './Login.scss';
 
 const Login = () => {
