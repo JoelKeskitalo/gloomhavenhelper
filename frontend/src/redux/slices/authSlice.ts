@@ -30,7 +30,13 @@ export const loginUserThunk = createAsyncThunk<User, LoginPayload>(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await loginUser(credentials);
-            return response.user;
+            const user = response.user;
+
+            if (user.token) {
+                localStorage.setItem('token', user.token);
+            }
+
+            return user;
         } catch (error) {
             return rejectWithValue(error);
         }
@@ -55,6 +61,7 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isAuthenticated = false;
+            localStorage.removeItem('token');
         },
     },
     extraReducers: (builder) => {
