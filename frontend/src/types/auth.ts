@@ -2,6 +2,12 @@ export interface User {
     id: string;
     email: string;
     password: string;
+    character?: string;
+    playedScenarios?: string[];
+    settings?: {
+        enableDarkMode: boolean;
+        preferredLanguage: string;
+    };
     token?: string;
 }
 export interface AuthState {
