@@ -1,7 +1,18 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuthSelector, useAuthDispatch } from '../../redux/store';
+import { logout } from '../../redux/slices/authSlice';
 import './Navbar.scss';
 
 const Navbar = () => {
+    const isAuthenticated = useAuthSelector((state) => state.auth.isAuthenticated);
+    const dispatch = useAuthDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/login');
+    };
+
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -18,9 +29,21 @@ const Navbar = () => {
                     <NavLink to="/rules" className="navbar-link">
                         Rules
                     </NavLink>
-                    <NavLink to="/account" className="navbar-link">
-                        Account
-                    </NavLink>
+
+                    {isAuthenticated ? (
+                        <>
+                            <NavLink to="/account" className="navbar-link">
+                                Account
+                            </NavLink>
+                            <button className="navbar-link logout-button" onClick={handleLogout}>
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <NavLink to="/login" className="navbar-link">
+                            Login
+                        </NavLink>
+                    )}
                 </div>
             </div>
         </nav>

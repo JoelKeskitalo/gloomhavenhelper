@@ -49,3 +49,29 @@
         color: color.adjust($accent-color, $lightness: 15%);
     }
 }
+
+.navbar-link,
+.logout-button {
+    background: none;
+    border: none;
+    color: $text-color;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+
+    &.active {
+        color: color.adjust($accent-color, $lightness: 10%);
+        font-weight: bold;
+    }
+
+    &:hover {
+        color: color.adjust($accent-color, $lightness: 15%);
+    }
+}
+
+// 🔥 Extra fix för att knappen inte ska se ut som en standardknapp
+.logout-button {
+    padding: 0;
+    font: inherit;
+}
