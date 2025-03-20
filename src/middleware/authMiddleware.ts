@@ -9,6 +9,7 @@ declare module 'express' {
 
 export const authenticateUser = (req: Request, res: Response, next: NextFunction): void => {
     const token = req.header('Authorization')?.split(' ')[1];
+    console.log(`Token recieved: ${token}`);
 
     if (!token) {
         res.status(401).json({
@@ -20,6 +21,7 @@ export const authenticateUser = (req: Request, res: Response, next: NextFunction
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
         req.user = decoded;
+        console.log(`Decoded user: ${req.user}`);
         next();
     } catch (error) {
         res.status(400).json({ message: 'Invalid token' });

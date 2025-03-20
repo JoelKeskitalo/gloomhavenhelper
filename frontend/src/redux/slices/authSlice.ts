@@ -12,7 +12,13 @@ export const registerUserThunk = createAsyncThunk<User, RegisterPayload>(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await registerUser(credentials);
-            return response.user;
+            const user = response.user;
+
+            if (user.token) {
+                localStorage.setItem('token', user.token);
+            }
+
+            return user;
         } catch (error) {
             return rejectWithValue(error);
         }

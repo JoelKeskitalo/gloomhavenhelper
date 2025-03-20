@@ -151,7 +151,13 @@ export const selectHeroForUser = async (
     res: Response
 ): Promise<void> => {
     try {
-        const { heroId } = req.body;
+        console.log('🔥 Received request:', {
+            params: req.params,
+            body: req.body,
+            user: req.user,
+        });
+
+        const heroId = req.params.id;
 
         if (!req.user || !req.user.userId) {
             res.status(401).json({ message: 'Unauthorized: User ID missing in token' });
@@ -179,8 +185,8 @@ export const selectHeroForUser = async (
 
         const character = new Character({
             name: hero.name,
-            heroId,
-            user: user._id,
+            heroId: new mongoose.Types.ObjectId(heroId),
+            user: new mongoose.Types.ObjectId(userId),
             level: 1,
             experience: 0,
             gold: 0,
@@ -197,6 +203,8 @@ export const selectHeroForUser = async (
         user.character = character._id as mongoose.Types.ObjectId;
         await user.save();
 
+        console.log('✅ Character created:', character);
+
         res.status(200).json({
             message: 'Hero successfully selected and Character created for user.',
             user: {
@@ -209,7 +217,7 @@ export const selectHeroForUser = async (
             },
         });
     } catch (error: unknown) {
-        const err = error as Error;
-        res.status(500).json({ error: err.message });
+        console.error('❌ Error in selectHeroForUser:', error);
+        res.status(500).json({ error: (error as Error).message });
     }
 };

@@ -2,6 +2,7 @@ export interface User {
     id: string;
     email: string;
     password: string;
+    token?: string;
 }
 export interface AuthState {
     user: User | null;

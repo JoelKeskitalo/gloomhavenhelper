@@ -28,6 +28,9 @@ const ChooseHero = () => {
             setError('User not found. Please login again.');
             return;
         }
+
+        console.log('Selected Hero ID:', heroId);
+
         try {
             await selectHero(user.id, heroId);
             navigate('/account');

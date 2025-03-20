@@ -7,15 +7,17 @@ import {
     removeUserById,
     selectCharacterForUser,
 } from '../controllers/userController';
+import { authenticateUser } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
 // api/users
 router.post('/register', registerUser);
-router.get('/', getAllUsers);
 router.post('/login', loginUser);
-router.get('/:userId', getUserById);
-router.delete('/:userId', removeUserById);
-router.post('/:userId/select-character', selectCharacterForUser);
+
+router.get('/', authenticateUser, getAllUsers);
+router.get('/:userId', authenticateUser, getUserById);
+router.delete('/:userId', authenticateUser, removeUserById);
+router.post('/:userId/select-character', authenticateUser, selectCharacterForUser);
 
 export default router;
