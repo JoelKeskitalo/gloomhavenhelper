@@ -1,0 +1,59 @@
+import { useEffect, useState } from 'react';
+import { useAuthSelector } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
+import { fetchHeroes, selectHero } from '../../api/heroes';
+import { Hero } from '../../types/heroes';
+import './ChooseHero.scss';
+
+const ChooseHero = () => {
+    const [heroes, setHeroes] = useState<Hero[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const user = useAuthSelector((state) => state.auth.user);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const getHeroes = async () => {
+            try {
+                const data = await fetchHeroes();
+                setHeroes(data);
+            } catch (err) {
+                setError('Failed to fetch heroes');
+            }
+        };
+        getHeroes();
+    }, []);
+
+    const handleSelectHero = async (heroId: string) => {
+        try {
+            await selectHero(user?.id || '', heroId);
+            navigate('/account');
+        } catch (err) {
+            setError('Failed to select hero');
+        }
+    };
+
+    return (
+        <div className="choose-hero-container">
+            <h1 className="choose-hero-title">Choose Your Hero</h1>
+            {error && <p className="error-message">{error}</p>}
+            <div className="hero-list">
+                {heroes.map((hero) => (
+                    <div
+                        key={hero.id}
+                        className="hero-card"
+                        onClick={() => handleSelectHero(hero.id)}
+                    >
+                        <img
+                            src={hero.imagePath || '/default-hero.png'}
+                            alt={hero.name}
+                            className="hero-image"
+                        />
+                        <h2 className="hero-name">{hero.name}</h2>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default ChooseHero;

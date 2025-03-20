@@ -20,7 +20,7 @@ export const fetchHeroes = async (): Promise<Hero[]> => {
 
 export const selectHero = async (userId: string, heroId: string): Promise<void> => {
     try {
-        await axios.patch(`/api/users/${userId}/select-hero`, { characterId: heroId });
+        await axios.patch(`/api/heroes/${heroId}/select-user`, { userId });
     } catch (error: unknown) {
         const err = error as Error & { response?: { data?: { message?: string } } };
         throw new Error(err.response?.data?.message || 'Failed to select hero');
