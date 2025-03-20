@@ -5,6 +5,7 @@ import {
     createHero,
     updateHeroDetailsById,
     deleteHeroById,
+    selectHeroForUser,
 } from '../controllers/heroController';
 
 const router = express.Router();
@@ -15,6 +16,6 @@ router.get('/:id', getHeroById);
 router.post('/', createHero); // dev/admin use
 router.patch('/:id', updateHeroDetailsById); // dev/admin use
 router.delete('/:id', deleteHeroById); // dev/admin use
-// develop function for development environment confirmation
+router.patch('/:id/choose-hero', selectHeroForUser);
 
 export default router;

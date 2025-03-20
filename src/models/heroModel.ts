@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IHero extends Document {
+    _id: Schema.Types.ObjectId;
     name: string;
     class: 'Hatchet' | 'Red Guard' | 'VoidWarden' | 'Demolitionist';
     healthPerLevel: number[];

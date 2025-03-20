@@ -4,7 +4,7 @@ import characterSchema, { ICharacter } from './characterModel';
 export interface IUser extends Document {
     email: string;
     password: string;
-    character: ICharacter;
+    character: mongoose.Types.ObjectId;
     playedScenarios: mongoose.Schema.Types.ObjectId[];
     settings: {
         enableDarkMode: boolean;

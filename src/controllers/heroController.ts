@@ -1,5 +1,14 @@
 import Hero from '../models/heroModel';
+import User from '../models/userModel';
+import Character from '../models/characterModel';
+import mongoose from 'mongoose';
 import { Request, Response } from 'express';
+
+interface AuthenticatedRequest extends Request {
+    user?: {
+        userId: mongoose.Types.ObjectId;
+    };
+}
 
 export const getAllHeroes = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -134,5 +143,73 @@ export const deleteHeroById = async (req: Request, res: Response): Promise<void>
         res.status(500).json({
             error: err.message,
         });
+    }
+};
+
+export const selectHeroForUser = async (
+    req: AuthenticatedRequest,
+    res: Response
+): Promise<void> => {
+    try {
+        const { heroId } = req.body;
+
+        if (!req.user || !req.user.userId) {
+            res.status(401).json({ message: 'Unauthorized: User ID missing in token' });
+            return;
+        }
+
+        const userId = req.user.userId;
+
+        if (!heroId) {
+            res.status(400).json({ message: 'Hero ID is required' });
+            return;
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            res.status(404).json({ message: 'User not found' });
+            return;
+        }
+
+        const hero = await Hero.findById(heroId);
+        if (!hero) {
+            res.status(404).json({ message: 'Hero not found' });
+            return;
+        }
+
+        const character = new Character({
+            name: hero.name,
+            heroId,
+            user: user._id,
+            level: 1,
+            experience: 0,
+            gold: 0,
+            health: hero.healthPerLevel[0],
+            stamina: 10,
+            abilities: [],
+            items: [],
+            perks: [],
+            createdAt: new Date(),
+        });
+
+        await character.save();
+
+        user.character = character._id as mongoose.Types.ObjectId;
+        await user.save();
+
+        res.status(200).json({
+            message: 'Hero successfully selected and Character created for user.',
+            user: {
+                id: user._id,
+                email: user.email,
+                character: {
+                    id: character._id,
+                    hero: hero._id,
+                },
+            },
+        });
+    } catch (error: unknown) {
+        const err = error as Error;
+        res.status(500).json({ error: err.message });
     }
 };

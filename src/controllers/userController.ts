@@ -27,7 +27,18 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
         await user.save();
 
-        res.status(201).json({ message: 'User created successfully', user });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {
+            expiresIn: '7h',
+        });
+
+        res.status(201).json({
+            message: 'User created successfully',
+            user: {
+                id: user._id,
+                email: user.email,
+                token: token,
+            },
+        });
     } catch (error: unknown) {
         const err = error as Error;
         res.status(500).json({ error: err.message });
@@ -80,7 +91,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             return;
         }
 
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             res.status(401).json({
@@ -128,6 +139,7 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
         res.status(200).json({
             message: 'User found in database:',
             user: existingUser,
+            token: req.headers.authorization?.split(' ')[1],
         });
     } catch (error: unknown) {
         const err = error as Error;
