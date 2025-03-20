@@ -24,8 +24,12 @@ const ChooseHero = () => {
     }, []);
 
     const handleSelectHero = async (heroId: string) => {
+        if (!user || !user.id) {
+            setError('User not found. Please login again.');
+            return;
+        }
         try {
-            await selectHero(user?.id || '', heroId);
+            await selectHero(user.id, heroId);
             navigate('/account');
         } catch (err) {
             setError('Failed to select hero');

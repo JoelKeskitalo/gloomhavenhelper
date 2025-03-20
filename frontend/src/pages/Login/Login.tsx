@@ -24,7 +24,7 @@ const Login = () => {
         setError(null);
         try {
             await dispatch(loginUserThunk({ email, password })).unwrap();
-            navigate('/hero'); // Redirect to hero page after login
+            navigate('/hero');
         } catch (error: unknown) {
             const err = error as Error;
             setError(err.message);

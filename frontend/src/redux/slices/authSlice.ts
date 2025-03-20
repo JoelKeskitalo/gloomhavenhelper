@@ -53,13 +53,17 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(registerUserThunk.fulfilled, (state, action) => {
+            console.log('loginUserThunk fulfilled payload:', action.payload);
             state.user = action.payload;
             state.isAuthenticated = true;
         });
         builder.addCase(loginUserThunk.fulfilled, (state, action) => {
+            console.log('Payload after login:', action.payload);
             state.user = action.payload;
             state.isAuthenticated = true;
+            console.log('Updated state in authSlice:', state);
         });
+
         builder.addCase(fetchUser.fulfilled, (state, action) => {
             state.user = action.payload;
             state.isAuthenticated = true;
