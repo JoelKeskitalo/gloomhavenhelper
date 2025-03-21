@@ -22,38 +22,38 @@ The project is built for future scalability, and I will continue working on:
 
 
 ## Techniques, programs and dependencies used primarily:
-Frontend: React, Typescript, Redux Toolkit
-Backend: Node.js, Express, Typescript
-Database: MongoDB Atlas (Cloud)
+- Frontend: React, Typescript, Redux Toolkit
+- Backend: Node.js, Express, Typescript
+- Database: MongoDB Atlas (Cloud)
 
 
 ## Folder Structure
 I have aspired to keep the "seperation of tasks" principle as much as possible, as well as relying on an MVC-like structure for backend. Thus, my project is divided into backend/frontend as such:
-GLOOMHAVENHELPER (root, repository)
-/src (backend)
-/frontend/src (frontend)
+- GLOOMHAVENHELPER (root, repository)
+- /src (backend)
+- /frontend/src (frontend)
 
 ### Backend: 
 As previously mentioned, I have aspired to track the MVC-model as much as possible. 
-config; database connection & .env-variables
-controllers; the bridge between models, routes and database communication
-middleware; json webtoken authentication
-models; models corresponding to gloomhaven relevant objects
-resources; a folder containing endpoints, model templates, gloomhaven images and the gloomhaven rulebook
-routes; the endpoints & imported functions corresponding to the controllers and connected via express router
+- config; database connection & .env-variables
+- controllers; the bridge between models, routes and database communication
+- middleware; json webtoken authentication
+- models; models corresponding to gloomhaven relevant objects
+- resources; a folder containing endpoints, model templates, gloomhaven images and the gloomhaven rulebook
+- routes; the endpoints & imported functions corresponding to the controllers and connected via express router
 
-server.ts: the main execution file
+- server.ts: the main execution file
 
 ### Frontend:
 On the frontend side, I have aspired as much as possible to seperate tasks. For a project this size, this might in the end prove unecessary. But for learning purposes, I feel this was most apt. 
-api; api-related frontend calls. this is where the connection to the backend endpoints is exported to the rest of the project
-components; reusable react components, tsx-files since the project is typescript-based
-pages; pages, seperated from components as they change the whole view and are not reusable
-redux/slices/authSlice; the primary redux file for updating and passing states. 'auth' symbolizes the fact that these states are all authorization, i.e. user, related. 
-redux/thunks/authThunks; an example of the seperation of tasks I mentioned. thunks are async functions that are used for dispatching updated states to the redux store, and thus in turn imports the API functions mentioned above
-redux/store.ts; the redux store. used to wrap the project in order to be able to use hooks correctly, which are typed and exported in the same file
-styles; the global SCSS-files used for the project
-types; backend-inspired Typescript typing, for relevant models and/or API-responses
+- api; api-related frontend calls. this is where the connection to the backend endpoints is exported to the rest of the project
+- components; reusable react components, tsx-files since the project is typescript-based
+- pages; pages, seperated from components as they change the whole view and are not reusable
+- redux/slices/authSlice; the primary redux file for updating and passing states. 'auth' symbolizes the fact that these states are all authorization, i.e. user, related. 
+- redux/thunks/authThunks; an example of the seperation of tasks I mentioned. thunks are async functions that are used for dispatching updated states to the redux store, and thus in turn imports the API functions mentioned above
+- redux/store.ts; the redux store. used to wrap the project in order to be able to use hooks correctly, which are typed and exported in the same file
+- styles; the global SCSS-files used for the project
+- types; backend-inspired Typescript typing, for relevant models and/or API-responses
 
 
 ## IMPORTANT: HOW TO RUN PROJECT LOCALLY
