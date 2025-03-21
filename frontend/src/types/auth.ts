@@ -1,8 +1,10 @@
+import { Character } from './character';
+
 export interface User {
     id: string;
     email: string;
     password: string;
-    character?: string;
+    character?: Character;
     playedScenarios?: string[];
     settings?: {
         enableDarkMode: boolean;

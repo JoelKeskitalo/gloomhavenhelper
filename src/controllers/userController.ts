@@ -129,7 +129,13 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
             return;
         }
 
-        const existingUser = await User.findOne({ _id: userId });
+        const existingUser = await User.findById(userId).populate({
+            path: 'character',
+            populate: {
+                path: 'heroId',
+                model: 'Hero',
+            },
+        });
 
         if (!existingUser) {
             res.status(404).json({ message: 'No user found by that ID' });

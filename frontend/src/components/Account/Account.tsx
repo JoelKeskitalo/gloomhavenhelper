@@ -15,7 +15,8 @@ const Account = () => {
                         <strong>Email:</strong> {user?.email || 'Unknown'}
                     </p>
                     <p>
-                        <strong>Hero Selected:</strong> {user?.character ? 'Yes' : 'No'}
+                        <strong>Hero Selected:</strong>{' '}
+                        {user?.character?.heroId?.name ? user.character.heroId.name : 'No'}
                     </p>
                     <p>
                         <strong>Scenarios Played:</strong> {user?.playedScenarios?.length ?? 0}

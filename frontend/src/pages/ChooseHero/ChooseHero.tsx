@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useAuthSelector } from '../../redux/store';
+import { useAuthSelector, useAuthDispatch } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { fetchHeroes, selectHero } from '../../api/heroes';
+import { fetchUser } from '../../redux/thunks/authThunks';
 import { Hero } from '../../types/heroes';
 import './ChooseHero.scss';
 
 const ChooseHero = () => {
     const [heroes, setHeroes] = useState<Hero[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+    const dispatch = useAuthDispatch();
     const user = useAuthSelector((state) => state.auth.user);
     const navigate = useNavigate();
 
@@ -33,6 +36,7 @@ const ChooseHero = () => {
 
         try {
             await selectHero(user.id, heroId);
+            await dispatch(fetchUser(user.id));
             navigate('/account');
         } catch (err) {
             setError('Failed to select hero');

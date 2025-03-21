@@ -28,11 +28,13 @@ export const loginUser = async (credentials: LoginPayload): Promise<LoginRespons
 };
 
 export const getUserById = async (userId: string): Promise<User> => {
-    try {
-        const response = await axios.get<User>(`/api/users/${userId}`);
-        return response.data;
-    } catch (error: unknown) {
-        const err = error as Error & { response?: { data?: { message?: string } } };
-        throw new Error(err.response?.data?.message || 'Failed to fetch user');
-    }
+    const token = localStorage.getItem('token');
+
+    const response = await axios.get<{ user: User }>(`/api/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return response.data.user;
 };
