@@ -13,7 +13,7 @@ export const registerUserThunk = createAsyncThunk<User, RegisterPayload>(
                 localStorage.setItem('token', user.token);
             }
 
-            return user;
+            return user; // payload of the action
         } catch (error) {
             return rejectWithValue(error);
         }
