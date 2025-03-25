@@ -4,7 +4,7 @@ import authReducer from './slices/authSlice'; // reducer from authSlice
 
 const store = configureStore({
     reducer: {
-        auth: authReducer, // update state in the f00king store man
+        auth: authReducer,
     },
 });
 
