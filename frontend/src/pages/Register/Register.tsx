@@ -30,10 +30,11 @@ const Register = () => {
         try {
             await dispatch(
                 registerUserThunk({
+                    // sends an action to the redux store,
                     email: form.email,
                     password: form.password,
                 })
-            ).unwrap();
+            ).unwrap(); // converts a thunk to a normal promise, allows for try/catch usage
             navigate('/choose-hero'); // Redirect to hero selection after registration
         } catch (err) {
             setError('Registration failed');
