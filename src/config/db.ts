@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { MONGO_URI } = require('../config/config');
+import mongoose from 'mongoose';
+import { MONGO_URI } from './config';
 
 const connectDB = async (): Promise<void> => {
     try {

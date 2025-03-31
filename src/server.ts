@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import config from './config/config';
 import connectDB from './config/db';
 import userRoutes from './routes/userRoutes';
 import characterRoutes from './routes/characterRoutes';
@@ -12,8 +11,7 @@ import itemRoutes from './routes/itemRoutes';
 import monsterRoutes from './routes/monsterRoutes';
 import deckRoutes from './routes/deckRoutes';
 import userSettingsRoutes from './routes/userSettingsRoutes';
-
-const { PORT } = config;
+import { PORT } from './config/config';
 
 const app = express();
 app.use(express.json());
