@@ -4,6 +4,7 @@ import characterSchema, { ICharacter } from './characterModel';
 export interface IUser extends Document {
     email: string;
     password: string;
+    isAdmin: boolean;
     character: mongoose.Types.ObjectId;
     playedScenarios: mongoose.Schema.Types.ObjectId[];
     settings: {
@@ -18,6 +19,7 @@ const userSchema = new Schema<IUser>(
     {
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
+        isAdmin: { type: Boolean, default: false },
         character: { type: Schema.Types.ObjectId, ref: 'Character' },
         playedScenarios: [{ type: Schema.Types.ObjectId, ref: 'PlayedScenario' }],
         settings: {

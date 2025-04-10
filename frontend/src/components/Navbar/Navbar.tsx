@@ -4,6 +4,7 @@ import { logout } from '../../redux/slices/authSlice';
 import './Navbar.scss';
 
 const Navbar = () => {
+    const user = useAuthSelector((state) => state.auth.user);
     const isAuthenticated = useAuthSelector((state) => state.auth.isAuthenticated);
     const dispatch = useAuthDispatch();
     const navigate = useNavigate();
@@ -32,6 +33,11 @@ const Navbar = () => {
 
                     {isAuthenticated ? (
                         <>
+                            {user?.isAdmin && (
+                                <NavLink to="/admin" className="navbar-link">
+                                    Admin
+                                </NavLink>
+                            )}
                             <NavLink to="/account" className="navbar-link">
                                 Account
                             </NavLink>

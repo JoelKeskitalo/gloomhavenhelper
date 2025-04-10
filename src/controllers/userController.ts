@@ -36,6 +36,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
             user: {
                 id: user._id,
                 email: user.email,
+                isAdmin: user.isAdmin,
                 token: token,
             },
         });
@@ -109,6 +110,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
             user: {
                 id: user._id,
                 email: user.email,
+                isAdmin: user.isAdmin,
                 token: token,
             },
         });
