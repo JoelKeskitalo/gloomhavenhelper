@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthSelector, useAuthDispatch } from '../../redux/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { fetchHeroes, selectHero } from '../../api/heroes';
 import { fetchUser } from '../../redux/thunks/authThunks';
 import { Hero } from '../../types/heroes';
@@ -42,6 +42,10 @@ const ChooseHero = () => {
             setError('Failed to select hero');
         }
     };
+
+    if (user?.character) {
+        return <Navigate to="/account" />;
+    }
 
     return (
         <div className="choose-hero-container">

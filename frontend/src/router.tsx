@@ -11,7 +11,8 @@ import Navbar from './components/Navbar/Navbar';
 import Rules from './components/Rules/Rules';
 import ChooseHero from './pages/ChooseHero/ChooseHero';
 import AdminPage from './pages/AdminPage/AdminPage';
-import AdminRoute from './components/ProtectedRoutes/AdminRoute';
+import RequireAdmin from './components/ProtectedRoutes/AdminRoute';
+import RequireCharacter from './components/ProtectedRoutes/RequireCharacter';
 
 const Router = () => {
     return (
@@ -19,20 +20,57 @@ const Router = () => {
             <BrowserRouter>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route
+                        path="/"
+                        element={
+                            <RequireCharacter>
+                                <Home />
+                            </RequireCharacter>
+                        }
+                    />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/hero" element={<Hero />} />
-                    <Route path="/decks" element={<Decks />} />
-                    <Route path="/rules" element={<Rules />} />
-                    <Route path="/account" element={<Account />} />
                     <Route path="/choose-hero" element={<ChooseHero />} />
+
+                    <Route
+                        path="/account"
+                        element={
+                            <RequireCharacter>
+                                <Account />
+                            </RequireCharacter>
+                        }
+                    />
+                    <Route
+                        path="/hero"
+                        element={
+                            <RequireCharacter>
+                                <Hero />
+                            </RequireCharacter>
+                        }
+                    />
+                    <Route
+                        path="/decks"
+                        element={
+                            <RequireCharacter>
+                                <Decks />
+                            </RequireCharacter>
+                        }
+                    />
+                    <Route
+                        path="/rules"
+                        element={
+                            <RequireCharacter>
+                                <Rules />
+                            </RequireCharacter>
+                        }
+                    />
+
                     <Route
                         path="/admin"
                         element={
-                            <AdminRoute>
+                            <RequireAdmin>
                                 <AdminPage />
-                            </AdminRoute>
+                            </RequireAdmin>
                         }
                     />
                 </Routes>
