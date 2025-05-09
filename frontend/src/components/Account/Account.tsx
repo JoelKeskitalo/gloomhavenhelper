@@ -1,8 +1,21 @@
-import { useAuthSelector } from '../../redux/store';
+import { useAuthSelector, useAuthDispatch } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../redux/slices/authSlice';
 import './Account.scss';
 
 const Account = () => {
     const user = useAuthSelector((state) => state.auth.user);
+    const dispatch = useAuthDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate('/login');
+    };
+
+    const character = user?.character;
+    const heroClass = character?.heroId?.class ?? 'Unknown';
+    const characterName = character?.name ?? 'Unnamed';
 
     return (
         <div className="account-container">
@@ -15,8 +28,10 @@ const Account = () => {
                         <strong>Email:</strong> {user?.email || 'Unknown'}
                     </p>
                     <p>
-                        <strong>Hero Selected:</strong>{' '}
-                        {user?.character?.heroId?.name ? user.character.heroId.name : 'No'}
+                        <strong>Hero Class:</strong> {heroClass}
+                    </p>
+                    <p>
+                        <strong>Character Name:</strong> {characterName}
                     </p>
                     <p>
                         <strong>Scenarios Played:</strong> {user?.playedScenarios?.length ?? 0}
@@ -35,7 +50,9 @@ const Account = () => {
 
                 <div className="account-actions">
                     <button className="account-button">Change Password</button>
-                    <button className="account-button">Logout</button>
+                    <button className="account-button" onClick={handleLogout}>
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>

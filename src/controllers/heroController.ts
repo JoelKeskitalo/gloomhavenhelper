@@ -60,16 +60,16 @@ export const getHeroById = async (req: Request, res: Response): Promise<void> =>
 
 export const createHero = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, class: heroClass, healthPerLevel, startingAbilities } = req.body;
+        const { class: heroClass, healthPerLevel, startingAbilities } = req.body;
 
-        if (!name || !heroClass || !healthPerLevel || !startingAbilities) {
+        if (!heroClass || !healthPerLevel || !startingAbilities) {
             res.status(400).json({
                 message: 'Enter the required fields',
             });
             return;
         }
 
-        const existingHero = await Hero.findOne({ name });
+        const existingHero = await Hero.findOne({ class: heroClass });
         if (existingHero) {
             res.status(400).json({
                 message: 'Hero already exists',
@@ -77,7 +77,6 @@ export const createHero = async (req: Request, res: Response): Promise<void> => 
         }
 
         const hero = new Hero({
-            name: name,
             class: heroClass,
             healthPerLevel: healthPerLevel,
             startingAbilities: startingAbilities,
@@ -157,6 +156,13 @@ export const selectHeroForUser = async (
             user: req.user,
         });
 
+        const { characterName } = req.body;
+
+        if (!characterName || characterName.trim() === '') {
+            res.status(400).json({ message: 'Character name is required' });
+            return;
+        }
+
         const heroId = req.params.id;
 
         if (!req.user || !req.user.userId) {
@@ -184,7 +190,7 @@ export const selectHeroForUser = async (
         }
 
         const character = new Character({
-            name: hero.name,
+            name: characterName,
             heroId: new mongoose.Types.ObjectId(heroId),
             user: new mongoose.Types.ObjectId(userId),
             level: 1,
@@ -203,7 +209,7 @@ export const selectHeroForUser = async (
         user.character = character._id as mongoose.Types.ObjectId;
         await user.save();
 
-        console.log('✅ Character created:', character);
+        console.log('Character created:', character);
 
         res.status(200).json({
             message: 'Hero successfully selected and Character created for user.',
@@ -217,7 +223,7 @@ export const selectHeroForUser = async (
             },
         });
     } catch (error: unknown) {
-        console.error('❌ Error in selectHeroForUser:', error);
+        console.error('Error in selectHeroForUser:', error);
         res.status(500).json({ error: (error as Error).message });
     }
 };

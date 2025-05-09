@@ -9,6 +9,7 @@ import './ChooseHero.scss';
 const ChooseHero = () => {
     const [heroes, setHeroes] = useState<Hero[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [characterName, setCharacterName] = useState('');
 
     const dispatch = useAuthDispatch();
     const user = useAuthSelector((state) => state.auth.user);
@@ -32,10 +33,13 @@ const ChooseHero = () => {
             return;
         }
 
-        console.log('Selected Hero ID:', heroId);
+        if (!characterName.trim()) {
+            setError('Please enter a character name');
+            return;
+        }
 
         try {
-            await selectHero(user.id, heroId);
+            await selectHero(heroId, characterName);
             await dispatch(fetchUser(user.id));
             navigate('/account');
         } catch (err) {
@@ -51,6 +55,15 @@ const ChooseHero = () => {
         <div className="choose-hero-container">
             <h1 className="choose-hero-title">Choose Your Hero</h1>
             {error && <p className="error-message">{error}</p>}
+
+            <input
+                type="text"
+                placeholder="Enter your character's name"
+                className="hero-name-input"
+                value={characterName}
+                onChange={(e) => setCharacterName(e.target.value)}
+            />
+
             <div className="hero-list">
                 {heroes.map((hero) => (
                     <div
@@ -60,10 +73,10 @@ const ChooseHero = () => {
                     >
                         <img
                             src={hero.imagePath || '/default-hero.png'}
-                            alt={hero.name}
+                            alt={hero.class}
                             className="hero-image"
                         />
-                        <h2 className="hero-name">{hero.name}</h2>
+                        <h2 className="hero-name">{hero.class}</h2>
                     </div>
                 ))}
             </div>

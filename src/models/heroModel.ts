@@ -2,7 +2,6 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IHero extends Document {
     _id: Schema.Types.ObjectId;
-    name: string;
     class: 'Hatchet' | 'Red Guard' | 'VoidWarden' | 'Demolitionist';
     healthPerLevel: number[];
     startingAbilities: Schema.Types.ObjectId[];
@@ -11,7 +10,6 @@ export interface IHero extends Document {
 
 // check if toJsonSchema needs explicit typing
 const heroSchema = new Schema<IHero>({
-    name: { type: String, required: true },
     class: {
         type: String,
         enum: ['Hatchet', 'Red Guard', 'VoidWarden', 'Demolitionist'],
