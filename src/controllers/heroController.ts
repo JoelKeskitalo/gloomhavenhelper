@@ -157,13 +157,17 @@ export const selectHeroForUser = async (
         });
 
         const { characterName } = req.body;
+        const heroId = req.params.id;
 
         if (!characterName || characterName.trim() === '') {
             res.status(400).json({ message: 'Character name is required' });
             return;
         }
 
-        const heroId = req.params.id;
+        if (!heroId) {
+            res.status(400).json({ message: 'Hero ID is required' });
+            return;
+        }
 
         if (!req.user || !req.user.userId) {
             res.status(401).json({ message: 'Unauthorized: User ID missing in token' });
@@ -172,14 +176,17 @@ export const selectHeroForUser = async (
 
         const userId = req.user.userId;
 
-        if (!heroId) {
-            res.status(400).json({ message: 'Hero ID is required' });
-            return;
-        }
-
         const user = await User.findById(userId);
         if (!user) {
             res.status(404).json({ message: 'User not found' });
+            return;
+        }
+
+        // STOP if user already has a character
+        if (user.character) {
+            res.status(400).json({
+                message: 'You have already selected a hero. This cannot be changed.',
+            });
             return;
         }
 
@@ -209,7 +216,7 @@ export const selectHeroForUser = async (
         user.character = character._id as mongoose.Types.ObjectId;
         await user.save();
 
-        console.log('Character created:', character);
+        console.log('✅ Character created and locked in:', character);
 
         res.status(200).json({
             message: 'Hero successfully selected and Character created for user.',
