@@ -77,13 +77,17 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         const { email, password }: { email: string; password: string } = req.body;
 
         if (!email || !password) {
-            res.status(400).json({
-                message: 'All fields are required',
-            });
+            res.status(400).json({ message: 'All fields are required' });
             return;
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).populate({
+            path: 'character',
+            populate: {
+                path: 'heroId',
+                model: 'Hero',
+            },
+        });
 
         if (!user) {
             res.status(404).json({
@@ -95,9 +99,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
-            res.status(401).json({
-                message: 'Invalid email or password',
-            });
+            res.status(401).json({ message: 'Invalid email or password' });
             return;
         }
 
@@ -106,19 +108,20 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         });
 
         res.status(200).json({
-            message: 'Logged in successfully: ',
+            message: 'Logged in successfully',
             user: {
                 id: user._id,
                 email: user.email,
                 isAdmin: user.isAdmin,
+                character: user.character,
+                playedScenarios: user.playedScenarios,
+                settings: user.settings,
                 token: token,
             },
         });
     } catch (error: unknown) {
         const err = error as Error;
-        res.status(500).json({
-            error: err.message,
-        });
+        res.status(500).json({ error: err.message });
     }
 };
 

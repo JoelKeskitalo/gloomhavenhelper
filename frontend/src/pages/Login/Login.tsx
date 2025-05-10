@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { useAuthDispatch, useAuthSelector } from '../../redux/store'; // Redux hooks to send and receive state from redux store
+import { useState } from 'react';
+import { useAuthDispatch } from '../../redux/store';
 import { loginUserThunk } from '../../redux/thunks/authThunks';
 import './Login.scss';
 
@@ -11,20 +11,18 @@ const Login = () => {
     const dispatch = useAuthDispatch();
     const navigate = useNavigate();
 
-    const isAuthenticated = useAuthSelector((state) => state.auth.isAuthenticated);
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/hero');
-        }
-    }, [isAuthenticated, navigate]);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
         try {
-            await dispatch(loginUserThunk({ email, password })).unwrap();
-            navigate('/hero');
+            const result = await dispatch(loginUserThunk({ email, password })).unwrap();
+
+            // Direktkontroll på character efter inloggning
+            if (result.character) {
+                navigate('/hero');
+            } else {
+                navigate('/choose-hero');
+            }
         } catch (error: unknown) {
             const err = error as Error;
             setError(err.message);

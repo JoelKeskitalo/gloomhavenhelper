@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthSelector, useAuthDispatch } from '../../redux/store';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchHeroes, selectHero } from '../../api/heroes';
 import { fetchUser } from '../../redux/thunks/authThunks';
 import { Hero } from '../../types/heroes';
@@ -27,6 +27,12 @@ const ChooseHero = () => {
         getHeroes();
     }, []);
 
+    useEffect(() => {
+        if (user?.character) {
+            navigate('/account');
+        }
+    }, [user, navigate]);
+
     const handleSelectHero = async (heroId: string) => {
         if (!user || !user.id) {
             setError('User not found. Please login again.');
@@ -41,15 +47,10 @@ const ChooseHero = () => {
         try {
             await selectHero(heroId, characterName);
             await dispatch(fetchUser(user.id));
-            navigate('/account');
         } catch (err) {
             setError('Failed to select hero');
         }
     };
-
-    if (user?.character) {
-        return <Navigate to="/account" />;
-    }
 
     return (
         <div className="choose-hero-container">
